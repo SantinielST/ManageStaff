@@ -1,0 +1,54 @@
+﻿<Window x:Class="ManageStaff.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManageStaff"
+        mc:Ignorable="d"
+        Title="Главное окно" Height="450" Width="800">
+    <Grid Background="LightGoldenrodYellow">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Персонал">
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Имя"/>
+                            <GridViewColumn Header="Фамилия"/>
+                            <GridViewColumn Header="Телефон"/>
+                            <GridViewColumn Header="Зарплата"/>
+                            <GridViewColumn Header="Должность"/>
+                            <GridViewColumn Header="Отдел"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Должность">
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Должность"/>
+                            <GridViewColumn Header="Зарплата"/>
+                            <GridViewColumn Header="Количество сотрудников"/>
+                            <GridViewColumn Header="Максимально сотрудников"/>
+                            <GridViewColumn Header="Отдел"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Отдел">
+                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Название"/>
+                            <GridViewColumn Header="Количество отделов"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

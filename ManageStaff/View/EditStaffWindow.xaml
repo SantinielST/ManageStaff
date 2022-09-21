@@ -21,8 +21,6 @@
             <TextBox Text=""/>
             <TextBlock Text="Изменить телефон"/>
             <TextBox Text=""/>
-            <TextBlock Text="Изменить зарплату"/>
-            <TextBox Text=""/>
             <TextBlock Text="Изменить должность"/>
             <TextBox Text=""/>
             <TextBlock Text="Отдел"/>

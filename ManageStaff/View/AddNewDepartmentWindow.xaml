@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManageStaff.View"
         mc:Ignorable="d"
-        Title="Добавить отдел" Height="300" Width="300">
+        Title="Добавить отдел" Height="300" Width="300"
+        Name="AddNewDepartmentWnd">
     <Grid Background="LightGoldenrodYellow">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -15,9 +16,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="200">
-            <TextBlock Text="Название отдела"/>
-            <TextBox Text=""/>
+            <TextBlock Name="NameBlock" Text="Название отдела"/>
+            <TextBox Text="{Binding DepartmentName}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Добавить"/>
+        <Button Grid.Row="1" Content="Добавить" Command="{Binding AddNewDepartment}"
+               CommandParameter="{Binding ElementName=AddNewDepartmentWnd}"/>
     </Grid>
 </Window>

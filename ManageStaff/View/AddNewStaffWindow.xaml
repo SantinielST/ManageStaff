@@ -21,8 +21,6 @@
             <TextBox Text=""/>
             <TextBlock Text="Телефон"/>
             <TextBox Text=""/>
-            <TextBlock Text="Зарплата"/>
-            <TextBox Text=""/>
             <TextBlock Text="Должность"/>
             <TextBox Text=""/>
             <TextBlock Text="Отдел"/>

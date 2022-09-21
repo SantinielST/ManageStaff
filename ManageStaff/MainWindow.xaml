@@ -5,15 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManageStaff"
         mc:Ignorable="d"
-        Title="Главное окно" Height="450" Width="800">
+        Title="Главное окно" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Background="LightGoldenrodYellow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="88*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl>
+        <TabControl Grid.ColumnSpan="5">
             <TabItem Header="Персонал">
-                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView ItemsSource="{Binding AllStaff}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Имя"/>
@@ -27,7 +34,7 @@
                 </ListView>
             </TabItem>
             <TabItem Header="Должность">
-                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView ItemsSource="{Binding AllPositions}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Должность"/>
@@ -40,7 +47,7 @@
                 </ListView>
             </TabItem>
             <TabItem Header="Отдел">
-                <ListView d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView ItemsSource="{Binding AllDepartments}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Название"/>
@@ -50,5 +57,11 @@
                 </ListView>
             </TabItem>
         </TabControl>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Left" Grid.ColumnSpan="4" Margin="0,384,0,0" Grid.RowSpan="2">
+            <Button Content=" Новый сотрудник " Command="{Binding OpenAddNewStaff}"></Button>
+            <Button Content=" Новая должность " Command="{Binding OpenAddNewPosition}"></Button>
+            <Button Content=" Новый отдел " Command="{Binding OpenAddNewDepartment}"></Button>
+        </StackPanel>
     </Grid>
 </Window>

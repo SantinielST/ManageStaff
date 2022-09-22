@@ -16,8 +16,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="200">
-            <TextBlock Name="NameBlock" Text="Название отдела"/>
-            <TextBox Text="{Binding DepartmentName}"/>
+            <TextBlock Text="Название отдела"/>
+            <TextBox Name="NameBlock" Text="{Binding DepartmentName}"/>
         </StackPanel>
         <Button Grid.Row="1" Content="Добавить" Command="{Binding AddNewDepartment}"
                CommandParameter="{Binding ElementName=AddNewDepartmentWnd}"/>

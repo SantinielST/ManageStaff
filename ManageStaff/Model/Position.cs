@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,5 +23,23 @@ namespace ManageStaff.Model
         public int DepartmentId { get; set; }
 
         public Department Dapartment { get; set; }
+
+        [NotMapped]
+        public Department PositionDepartment
+        {
+            get
+            {
+                return DataWorker.GetDepartmentById(DepartmentId);
+            }
+        }
+
+        [NotMapped]
+        public List<Staff> PositionStaff 
+        {
+            get
+            {
+                return DataWorker.GetAllStaffByPositionId(Id);
+            }
+        }
     }
 }

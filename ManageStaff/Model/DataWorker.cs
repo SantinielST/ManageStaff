@@ -190,6 +190,42 @@ namespace ManageStaff.Model
             }
             return result;
         }
+
+        public static Position GetPositionById(int id)
+        {
+            using (ApplContext applContext = new ApplContext())
+            {
+                Position position = applContext.Positions.FirstOrDefault(p => p.Id == id);
+                return position;
+            }
+        }
+
+        public static Department GetDepartmentById(int id)
+        {
+            using (ApplContext applContext = new ApplContext())
+            {
+                Department department = applContext.Departments.FirstOrDefault(d => d.Id == id);
+                return department;
+            }
+        }
+
+        public static List<Staff> GetAllStaffByPositionId(int id)
+        {
+            using (var applContext = new ApplContext())
+            {
+                List<Staff> staffs = (from staff in GetStaffs() where staff.PositionId == id select staff).ToList();
+                return staffs;
+            }
+        }
+
+        public static List<Position> GetAllPositionsByDepartmentId(int id)
+        {
+            using (var applContext = new ApplContext())
+            {
+                List<Position> positions = (from position in GetPositions() where position.DepartmentId == id select position).ToList();
+                return positions;
+            }
+        }
     }
 }
 

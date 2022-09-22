@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManageStaff.View"
         mc:Ignorable="d"
-         Title="Добавить сотрудника" Height="300" Width="300">
+         Title="Добавить сотрудника" Height="300" Width="300"
+        Name="AddNewStaffWnd">
     <Grid Background="LightGoldenrodYellow">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,16 +17,17 @@
                     VerticalAlignment="Center"
                     Width="200">
             <TextBlock Text="Имя"/>
-            <TextBox Text=""/>
+            <TextBox Name="NameBlock" Text="{Binding StaffName}"/>
             <TextBlock Text="Фамилия"/>
-            <TextBox Text=""/>
+            <TextBox Name="LastNameBlock" Text="{Binding StaffLastName}"/>
             <TextBlock Text="Телефон"/>
-            <TextBox Text=""/>
+            <TextBox Name="StaffPhoneBlock" TextInput="PreviewTextInput" Text="{Binding StaffPhone}"/>
             <TextBlock Text="Должность"/>
-            <TextBox Text=""/>
-            <TextBlock Text="Отдел"/>
-            <ComboBox Text=""/>
+            <ComboBox Name="StaffPosition" ItemsSource="{Binding AllPositions}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding StaffPosition}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Добавить"/>
+        <Button Grid.Row="1" Content="Добавить" Command="{Binding AddNewStaff}"
+                CommandParameter="{Binding ElementName=AddNewStaffWnd}"/>
     </Grid>
 </Window>

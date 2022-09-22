@@ -7,61 +7,54 @@
         mc:Ignorable="d"
         Title="Главное окно" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Background="LightGoldenrodYellow">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="31*"/>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="16*"/>
-            <ColumnDefinition Width="88*"/>
-            <ColumnDefinition Width="17*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.ColumnSpan="5">
+        <TabControl Grid.Row="0">
             <TabItem Header="Персонал">
-                <ListView ItemsSource="{Binding AllStaff}">
+                <ListView x:Name="AllStaffsListView" ItemsSource="{Binding AllStaffs}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Имя"/>
-                            <GridViewColumn Header="Фамилия"/>
-                            <GridViewColumn Header="Телефон"/>
-                            <GridViewColumn Header="Зарплата"/>
-                            <GridViewColumn Header="Должность"/>
-                            <GridViewColumn Header="Отдел"/>
+                            <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Path=LastName}"/>
+                            <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=StaffPosition.Salary}"/>
+                            <GridViewColumn Header="Должность" DisplayMemberBinding="{Binding Path=StaffPosition.Name}"/>
+                            <GridViewColumn Header="Отдел" DisplayMemberBinding="{Binding Path=StaffPosition.PositionDepartment.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
             <TabItem Header="Должность">
-                <ListView ItemsSource="{Binding AllPositions}">
+                <ListView x:Name="AllPositionsListView" ItemsSource="{Binding AllPositions}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Должность"/>
-                            <GridViewColumn Header="Зарплата"/>
-                            <GridViewColumn Header="Количество сотрудников"/>
-                            <GridViewColumn Header="Максимально сотрудников"/>
-                            <GridViewColumn Header="Отдел"/>
+                            <GridViewColumn Header="Должность" DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Path=Salary}"/>
+                            <GridViewColumn Header="Количество сотрудников" DisplayMemberBinding="{Binding Path=PositionStaff.Count}"/>
+                            <GridViewColumn Header="Максимально сотрудников" DisplayMemberBinding="{Binding Path=MaxNumber}"/>
+                            <GridViewColumn Header="Отдел" DisplayMemberBinding="{Binding Path=PositionDepartment.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
             <TabItem Header="Отдел">
-                <ListView ItemsSource="{Binding AllDepartments}">
+                <ListView x:Name="AllDepartmentsListView" ItemsSource="{Binding AllDepartments}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Название"/>
-                            <GridViewColumn Header="Количество отделов"/>
+                            <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Количество должностей" DisplayMemberBinding="{Binding Path=DepartmentPosition.Count}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Left" Grid.ColumnSpan="4" Margin="0,384,0,0" Grid.RowSpan="2">
-            <Button Content=" Новый сотрудник " Command="{Binding OpenAddNewStaff}"></Button>
-            <Button Content=" Новая должность " Command="{Binding OpenAddNewPosition}"></Button>
-            <Button Content=" Новый отдел " Command="{Binding OpenAddNewDepartment}"></Button>
+                    HorizontalAlignment="Left" Grid.Row="1">
+            <Button Content=" Новый сотрудник " Command="{Binding OpenAddNewStaff}"/>
+            <Button Content=" Новая должность " Command="{Binding OpenAddNewPosition}"/>
+            <Button Content=" Новый отдел " Command="{Binding OpenAddNewDepartment}"/>
         </StackPanel>
     </Grid>
 </Window>

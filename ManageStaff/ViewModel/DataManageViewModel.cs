@@ -11,14 +11,14 @@ namespace ManageStaff.ViewModel
 {
     public class DataManageViewModel : INotifyPropertyChanged
     {
-        private List<Department> allDepartmets = DataWorker.GetDepartments();
-        public List<Department> AllDepartmets
+        private List<Department> allDepartments = DataWorker.GetDepartments();
+        public List<Department> AllDepartments
         {
-            get { return allDepartmets; }
+            get { return allDepartments; }
             set
             {
-                allDepartmets = value;
-                NotifyPropertyChanged(nameof(AllDepartmets));
+                allDepartments = value;
+                NotifyPropertyChanged(nameof(AllDepartments));
             }
         }
 
@@ -48,6 +48,16 @@ namespace ManageStaff.ViewModel
 
         public string DepartmentName { get; set; }
 
+        public string PositionName { get; set; }
+        public decimal PositionSalary { get; set; }
+        public int PositionMaxNumber { get; set; }
+        public Department PositionDepartment { get; set; }
+
+        public string StaffName { get; set; }
+        public string StaffLastName { get; set; }
+        public string StaffPhone { get; set; }
+        public Position StaffPosition { get; set; }
+
         private RelayCommand addNewDepartment;
         public RelayCommand AddNewDepartment
         {
@@ -60,16 +70,97 @@ namespace ManageStaff.ViewModel
 
                     if (DepartmentName == null || DepartmentName.Replace(" ", "").Length == 0)
                     {
-                        //SetRedBlockControl(window, "NameBlock");
+                        SetRedBlockControl(window, "NameBlock");
                     }
                     else
                     {
+                        SetGreenBlockControl(window, "NameBlock");
                         result = DataWorker.CreateDepartment(DepartmentName);
+                        ShowMessage(result);
+                        UpdateAllDataView();
+                        SetNullValues();
+                        window.Close();
                     }
                 });
             }
         }
 
+        private RelayCommand addNewPosition;
+        public RelayCommand AddNewPosition
+        {
+            get
+            {
+                return addNewPosition ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string result = "";
+                    if (PositionDepartment == null)
+                    {
+                        MessageBox.Show("Выберите отдел", "Внимание", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    if (PositionName == null || PositionName.Replace(" ", "").Length == 0)
+                    {
+                        SetRedBlockControl(window, "NameBlock");
+                    }
+                    if (PositionSalary == 0)
+                    {
+                        SetRedBlockControl(window, "SalaryBlock");
+                    }
+                    if (PositionMaxNumber == 0)
+                    {
+                        SetRedBlockControl(window, "MaxNumberBlock");
+                    }
+                    else
+                    {
+                        SetGreenBlockControl(window, "NameBlock");
+                        result = DataWorker.CreatePosition(PositionName, PositionSalary, PositionMaxNumber, PositionDepartment);
+                        ShowMessage(result);
+                        UpdateAllDataView();
+                        SetNullValues();
+                        window.Close();
+                    }
+                });
+            }
+        }
+
+        private RelayCommand addNewStaff;
+        public RelayCommand AddNewStaff
+        {
+            get
+            {
+                return addNewStaff ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string result = "";
+
+                    if (StaffName == null || StaffName.Replace(" ", "").Length == 0)
+                    {
+                        SetRedBlockControl(window, "NameBlock");
+                    }
+                    if (StaffLastName == null || StaffLastName.Replace(" ", "").Length == 0)
+                    {
+                        SetRedBlockControl(window, "LastNameBlock");
+                    }
+                    if (StaffPhone == null || StaffPhone.Replace(" ", "").Length == 0)
+                    {
+                        SetRedBlockControl(window, "PhoneBlock");
+                    }
+                    if (StaffPosition == null)
+                    {
+                        MessageBox.Show("Выберите должность", "Внимание", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        SetGreenBlockControl(window, "NameBlock");
+                        result = DataWorker.CreateStaff(StaffName, StaffLastName, StaffPhone, StaffPosition);
+                        ShowMessage(result);
+                        UpdateAllDataView();
+                        SetNullValues();
+                        window.Close();
+                    }
+                });
+            }
+        }
         #endregion
 
         #region COMMANDS TO OPEN WINDOWS
@@ -195,7 +286,7 @@ namespace ManageStaff.ViewModel
 
         private void SetRedBlockControl(Window window, string blockName)
         {
-            Control block = window.FindName(blockName) as Control;
+            Control? block = window.FindName(blockName) as Control;
             block.BorderBrush = Brushes.Red;
         }
 
@@ -203,6 +294,65 @@ namespace ManageStaff.ViewModel
         {
             Control block = window.FindName(blockName) as Control;
             block.BorderBrush = Brushes.SpringGreen;
+        }
+
+        #region UPDATE VIEWS
+
+        private void SetNullValues()
+        {
+            DepartmentName = null;
+
+            PositionName = null;
+            PositionSalary = 0;
+            PositionMaxNumber = 0;
+            PositionDepartment = null;
+
+            StaffName = null;
+            StaffLastName = null;
+            StaffPhone = null;
+            StaffPosition = null;
+        }
+
+        private void UpdateAllDataView()
+        {
+            UpdateAllDepartmentsView();
+            UpdateAllPositionsView();
+            UpdateAllStaffsView();
+        }
+
+        private void UpdateAllDepartmentsView()
+        {
+            AllDepartments = DataWorker.GetDepartments();
+            MainWindow.AllDepartmentsList.ItemsSource = null;
+            MainWindow.AllDepartmentsList.Items.Clear();
+            MainWindow.AllDepartmentsList.ItemsSource = AllDepartments;
+            MainWindow.AllDepartmentsList.Items.Refresh();
+        }
+
+        private void UpdateAllPositionsView()
+        {
+            AllPositions = DataWorker.GetPositions();
+            MainWindow.AllPositionsList.ItemsSource = null;
+            MainWindow.AllPositionsList.Items.Clear();
+            MainWindow.AllPositionsList.ItemsSource = AllPositions;
+            MainWindow.AllPositionsList.Items.Refresh();
+        }
+
+        private void UpdateAllStaffsView()
+        {
+            AllStaffs = DataWorker.GetStaffs();
+            MainWindow.AllStaffsList.ItemsSource = null;
+            MainWindow.AllStaffsList.Items.Clear();
+            MainWindow.AllStaffsList.ItemsSource = AllStaffs;
+            MainWindow.AllStaffsList.Items.Refresh();
+        }
+
+        #endregion
+
+        private void ShowMessage(string message)
+        {
+            MessageView messageView = new(message);
+            SetCenterPosition(messageView);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

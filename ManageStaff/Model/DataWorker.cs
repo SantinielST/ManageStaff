@@ -1,7 +1,5 @@
 ﻿using ManageStaff.Data;
-using ManageStaff.Model;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace ManageStaff.Model
@@ -167,7 +165,7 @@ namespace ManageStaff.Model
                 position.Name = newName;
                 position.Salary = newSalary;
                 position.MaxNumber = newMaxNumber;
-                position.Dapartment.Id = newDepartment.Id;
+                position.Department.Id = newDepartment.Id;
                 applContext.SaveChanges();
                 result = "Должность изменена";
             }

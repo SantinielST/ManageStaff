@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManageStaff.View"
         mc:Ignorable="d"
-       Title="Изменить сотрудника" Height="300" Width="300">
+        Title="Изменить сотрудника" Height="300" Width="300"
+        Name="EditStaffWnd">
     <Grid Background="LightGoldenrodYellow">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,16 +17,14 @@
                     VerticalAlignment="Center"
                     Width="200">
             <TextBlock Text="Изменить имя"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding StaffName}"/>
             <TextBlock Text="Изменить фамилию"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding StaffLastName}"/>
             <TextBlock Text="Изменить телефон"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding StaffPhone}" />
             <TextBlock Text="Изменить должность"/>
-            <TextBox Text=""/>
-            <TextBlock Text="Отдел"/>
-            <ComboBox Text=""/>
+            <ComboBox ItemsSource ="{Binding AllPositions}" SelectedItem="{Binding StaffPosition}" DisplayMemberPath="Name"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Изменить"/>
+        <Button Grid.Row="1" Content="Изменить" Command="{Binding EditStaff}" CommandParameter="{Binding ElementName=EditStaffWnd}"/>
     </Grid>
 </Window>

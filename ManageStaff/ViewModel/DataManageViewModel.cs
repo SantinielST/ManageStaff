@@ -44,19 +44,24 @@ namespace ManageStaff.ViewModel
             }
         }
 
+        public TabItem SelectedTabItem { get; set; }
+        public static Staff SelectedStaff { get; set; }
+        public static Position SelectedPosition { get; set; }
+        public static Department SelectedDepartment { get; set; }
+
         #region COMMANDS TO ADD
 
-        public string DepartmentName { get; set; }
+        public static string DepartmentName { get; set; }
 
-        public string PositionName { get; set; }
-        public decimal PositionSalary { get; set; }
-        public int PositionMaxNumber { get; set; }
-        public Department PositionDepartment { get; set; }
+        public static string PositionName { get; set; }
+        public static decimal PositionSalary { get; set; }
+        public static int PositionMaxNumber { get; set; }
+        public static Department PositionDepartment { get; set; }
 
-        public string StaffName { get; set; }
-        public string StaffLastName { get; set; }
-        public string StaffPhone { get; set; }
-        public Position StaffPosition { get; set; }
+        public static string StaffName { get; set; }
+        public static string StaffLastName { get; set; }
+        public static string StaffPhone { get; set; }
+        public static Position StaffPosition { get; set; }
 
         private RelayCommand addNewDepartment;
         public RelayCommand AddNewDepartment
@@ -163,6 +168,128 @@ namespace ManageStaff.ViewModel
         }
         #endregion
 
+        #region COMMAND TO DELETE
+
+        private RelayCommand deleteItem;
+        public RelayCommand DeleteItem
+        {
+            get
+            {
+                return deleteItem ?? new RelayCommand(obj =>
+                {
+                    string result = "Выберите объект";
+
+                    if (SelectedTabItem.Name == "StaffTab" && SelectedStaff != null)
+                    {
+                        result = DataWorker.DeleteStaff(SelectedStaff);
+                        UpdateAllDataView();
+                    }
+
+                    if (SelectedTabItem.Name == "PositionTab" && SelectedPosition != null)
+                    {
+                        result = DataWorker.DeletePosition(SelectedPosition);
+                        UpdateAllDataView();
+                    }
+
+                    if (SelectedTabItem.Name == "DepartmentTab" && SelectedDepartment != null)
+                    {
+                        result = DataWorker.DeleteDepartment(SelectedDepartment);
+                        UpdateAllDataView();
+                    }
+                    SetNullValues();
+                    ShowMessage(result);
+                });
+            }
+        }
+
+        #endregion
+
+        #region COMMANDS TO EDIT
+
+        private RelayCommand editStaff;
+        public RelayCommand EditStaff
+        {
+            get
+            {
+                return editStaff ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string result = "Не выбран сотрудник";
+                    string noPisition = "Не выбрана должность";
+
+                    if (SelectedStaff != null)
+                    {
+                        if (StaffPosition != null)
+                        {
+                            result = DataWorker.EditStaff(SelectedStaff, StaffName, StaffLastName, StaffPhone, StaffPosition);
+
+                            UpdateAllDataView();
+                            SetNullValues();
+                            ShowMessage(result);
+                            window.Close();
+                        }
+                        else ShowMessage(noPisition);
+                    }
+                    else ShowMessage(result);
+                });
+            }
+        }
+
+        private RelayCommand editPosition;
+        public RelayCommand EditPosition
+        {
+            get
+            {
+                return editPosition ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string result = "Не выбрана позиция";
+                    string noDepaartment = "Не выбран отдел";
+
+                    if (SelectedPosition != null)
+                    {
+                        if (PositionDepartment != null)
+                        {
+                            result = DataWorker.EditPosition(SelectedPosition, PositionName, PositionSalary, PositionMaxNumber, PositionDepartment);
+
+                            UpdateAllDataView();
+                            SetNullValues();
+                            ShowMessage(result);
+                            window.Close();
+                        }
+                        else ShowMessage(noDepaartment);
+                    }
+                    else ShowMessage(result);
+                });
+            }
+        }
+
+        private RelayCommand editDepartment;
+        public RelayCommand EditDepartment
+        {
+            get
+            {
+                return editDepartment ?? new RelayCommand(obj =>
+                {
+                    var window = obj as Window;
+                    string result = "Отдел не выбран";
+
+                    if (SelectedDepartment != null)
+                    {
+                        result = DataWorker.EditDepartment(SelectedDepartment, DepartmentName);
+
+                        UpdateAllDataView();
+                        SetNullValues();
+                        ShowMessage(result);
+                        window.Close();
+                    }
+                    else ShowMessage(result);
+                });
+            }
+        }
+
+        #endregion
+
         #region COMMANDS TO OPEN WINDOWS
 
         private RelayCommand openAddNewDepartment;
@@ -201,38 +328,38 @@ namespace ManageStaff.ViewModel
             }
         }
 
-        private RelayCommand openEditDepartment;
-        public RelayCommand OpenEditDepartment
+        private RelayCommand openEditWindow;
+        public RelayCommand OpenEditWindow
         {
             get
             {
-                return openEditDepartment ?? new RelayCommand(obj =>
+                return openEditWindow ?? new RelayCommand(obj =>
                 {
-                    OpenEditDepartmentWindowMethod();
-                });
-            }
-        }
+                    if (SelectedTabItem.Name == "StaffTab" && SelectedStaff != null)
+                    {
+                        StaffName = SelectedStaff.Name;
+                        StaffLastName = SelectedStaff.LastName;
+                        StaffPhone = SelectedStaff.Phone;
+                        
+                        OpenEditStaffWindowMethod();
+                    }
 
-        private RelayCommand openEditPosition;
-        public RelayCommand OpenEditPosition
-        {
-            get
-            {
-                return openEditPosition ?? new RelayCommand(obj =>
-                {
-                    OpenEditPositionWindowMethod();
-                });
-            }
-        }
+                    if (SelectedTabItem.Name == "PositionTab" && SelectedPosition != null)
+                    {
+                        PositionName = SelectedPosition.Name;
+                        PositionSalary = SelectedPosition.Salary;
+                        PositionMaxNumber = SelectedPosition.MaxNumber;
+                        PositionDepartment = SelectedPosition.Department;
 
-        private RelayCommand openEditStaff;
-        public RelayCommand OpenEditStaff
-        {
-            get
-            {
-                return openEditStaff ?? new RelayCommand(obj =>
-                {
-                    OpenEditStaffWindowMethod();
+                        OpenEditPositionWindowMethod();
+                    }
+
+                    if (SelectedTabItem.Name == "DepartmentTab" && SelectedDepartment != null)
+                    {
+                        DepartmentName = SelectedDepartment.Name;
+
+                        OpenEditDepartmentWindowMethod();
+                    }
                 });
             }
         }

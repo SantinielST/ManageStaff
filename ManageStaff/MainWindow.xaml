@@ -11,9 +11,15 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
-            <TabItem Header="Персонал">
-                <ListView x:Name="AllStaffsListView" ItemsSource="{Binding AllStaffs}">
+        <TabControl Name="ManagerTabControl" Grid.Row="0" SelectedItem="{Binding SelectedTabItem}">
+            <TabItem Name="StaffTab" Header="Персонал">
+                <TabItem.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Редактировать" Command="{Binding OpenEditWindow}"></MenuItem>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteItem}"></MenuItem> 
+                </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="AllStaffsListView" ItemsSource="{Binding AllStaffs}" SelectedItem="{Binding SelectedStaff}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=Name}"/>
@@ -26,8 +32,14 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Должность">
-                <ListView x:Name="AllPositionsListView" ItemsSource="{Binding AllPositions}">
+            <TabItem Name="PositionTab" Header="Должность">
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditWindow}"></MenuItem>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"></MenuItem>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="AllPositionsListView" ItemsSource="{Binding AllPositions}" SelectedItem="{Binding SelectedPosition}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Должность" DisplayMemberBinding="{Binding Path=Name}"/>
@@ -39,12 +51,18 @@
                     </ListView.View>
                 </ListView>
             </TabItem>
-            <TabItem Header="Отдел">
-                <ListView x:Name="AllDepartmentsListView" ItemsSource="{Binding AllDepartments}">
+            <TabItem Name="DepartmentTab" Header="Отдел">
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditWindow}"></MenuItem>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"></MenuItem>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="AllDepartmentsListView" ItemsSource="{Binding AllDepartments}" SelectedItem="{Binding SelectedDepartment}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="Количество должностей" DisplayMemberBinding="{Binding Path=DepartmentPosition.Count}"/>
+                            <GridViewColumn Header="Количество сотрудников" DisplayMemberBinding="{Binding Path=DepartmentPosition.Count}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -52,9 +70,9 @@
         </TabControl>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Left" Grid.Row="1">
-            <Button Content=" Новый сотрудник " Command="{Binding OpenAddNewStaff}"/>
-            <Button Content=" Новая должность " Command="{Binding OpenAddNewPosition}"/>
-            <Button Content=" Новый отдел " Command="{Binding OpenAddNewDepartment}"/>
+            <Button Padding="10" Content="Новый сотрудник" Command="{Binding OpenAddNewStaff}"/>
+            <Button Padding="10" Content="Новая должность" Command="{Binding OpenAddNewPosition}"/>
+            <Button Padding="10" Content="Новый отдел" Command="{Binding OpenAddNewDepartment}"/>
         </StackPanel>
     </Grid>
 </Window>

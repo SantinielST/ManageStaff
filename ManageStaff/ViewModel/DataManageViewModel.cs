@@ -11,7 +11,7 @@ namespace ManageStaff.ViewModel
 {
     public class DataManageViewModel : INotifyPropertyChanged
     {
-        private List<Department> allDepartments = DataWorker.GetDepartments();
+        private List<Department> allDepartments = DataWorker.GetAllDepartments();
         public List<Department> AllDepartments
         {
             get { return allDepartments; }
@@ -22,7 +22,7 @@ namespace ManageStaff.ViewModel
             }
         }
 
-        private List<Position> allPositions = DataWorker.GetPositions();
+        private List<Position> allPositions = DataWorker.GetAllPositions();
         public List<Position> AllPositions
         {
             get { return allPositions; }
@@ -33,7 +33,7 @@ namespace ManageStaff.ViewModel
             }
         }
 
-        private List<Staff> allStaffs = DataWorker.GetStaffs();
+        private List<Staff> allStaffs = DataWorker.GetAllStaffs();
         public List<Staff> AllStaffs
         {
             get { return allStaffs; }
@@ -340,7 +340,7 @@ namespace ManageStaff.ViewModel
                         StaffName = SelectedStaff.Name;
                         StaffLastName = SelectedStaff.LastName;
                         StaffPhone = SelectedStaff.Phone;
-                        
+
                         OpenEditStaffWindowMethod();
                     }
 
@@ -349,7 +349,6 @@ namespace ManageStaff.ViewModel
                         PositionName = SelectedPosition.Name;
                         PositionSalary = SelectedPosition.Salary;
                         PositionMaxNumber = SelectedPosition.MaxNumber;
-                        PositionDepartment = SelectedPosition.Department;
 
                         OpenEditPositionWindowMethod();
                     }
@@ -449,7 +448,7 @@ namespace ManageStaff.ViewModel
 
         private void UpdateAllDepartmentsView()
         {
-            AllDepartments = DataWorker.GetDepartments();
+            AllDepartments = DataWorker.GetAllDepartments();
             MainWindow.AllDepartmentsList.ItemsSource = null;
             MainWindow.AllDepartmentsList.Items.Clear();
             MainWindow.AllDepartmentsList.ItemsSource = AllDepartments;
@@ -458,7 +457,7 @@ namespace ManageStaff.ViewModel
 
         private void UpdateAllPositionsView()
         {
-            AllPositions = DataWorker.GetPositions();
+            AllPositions = DataWorker.GetAllPositions();
             MainWindow.AllPositionsList.ItemsSource = null;
             MainWindow.AllPositionsList.Items.Clear();
             MainWindow.AllPositionsList.ItemsSource = AllPositions;
@@ -467,7 +466,7 @@ namespace ManageStaff.ViewModel
 
         private void UpdateAllStaffsView()
         {
-            AllStaffs = DataWorker.GetStaffs();
+            AllStaffs = DataWorker.GetAllStaffs();
             MainWindow.AllStaffsList.ItemsSource = null;
             MainWindow.AllStaffsList.Items.Clear();
             MainWindow.AllStaffsList.ItemsSource = AllStaffs;

@@ -6,7 +6,7 @@ namespace ManageStaff.Model
 {
     public class DataWorker
     {
-        public static List<Department> GetDepartments()
+        public static List<Department> GetAllDepartments()
         {
             using (ApplContext applContext = new ApplContext())
             {
@@ -15,7 +15,7 @@ namespace ManageStaff.Model
             }
         }
 
-        public static List<Position> GetPositions()
+        public static List<Position> GetAllPositions()
         {
             using (ApplContext applContext = new ApplContext())
             {
@@ -24,7 +24,7 @@ namespace ManageStaff.Model
             }
         }
 
-        public static List<Staff> GetStaffs()
+        public static List<Staff> GetAllStaffs()
         {
             using (ApplContext applContext = new ApplContext())
             {
@@ -165,7 +165,7 @@ namespace ManageStaff.Model
                 position.Name = newName;
                 position.Salary = newSalary;
                 position.MaxNumber = newMaxNumber;
-                position.Department.Id = newDepartment.Id;
+                position.DepartmentId = newDepartment.Id;
                 applContext.SaveChanges();
                 result = "Должность изменена";
             }
@@ -182,7 +182,7 @@ namespace ManageStaff.Model
                 staff.Name = newName;
                 staff.LastName = newLastName;
                 staff.Phone = newPhone;
-                staff.Position.Id = newPosition.Id;
+                staff.PositionId = newPosition.Id;
                 applContext.SaveChanges();
                 result = "Сотрудник изменен";
             }
@@ -211,7 +211,7 @@ namespace ManageStaff.Model
         {
             using (var applContext = new ApplContext())
             {
-                List<Staff> staffs = (from staff in GetStaffs() where staff.PositionId == id select staff).ToList();
+                List<Staff> staffs = (from staff in GetAllStaffs() where staff.PositionId == id select staff).ToList();
                 return staffs;
             }
         }
@@ -220,7 +220,7 @@ namespace ManageStaff.Model
         {
             using (var applContext = new ApplContext())
             {
-                List<Position> positions = (from position in GetPositions() where position.DepartmentId == id select position).ToList();
+                List<Position> positions = (from position in GetAllPositions() where position.DepartmentId == id select position).ToList();
                 return positions;
             }
         }
